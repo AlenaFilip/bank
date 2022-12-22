@@ -1,11 +1,8 @@
 package com.telran.bank.sevice;
 
 import com.telran.bank.entity.Account;
-import com.telran.bank.entity.Transaction;
 import com.telran.bank.exception.AccountNotFoundException;
-import com.telran.bank.exception.TransactionNotFoundException;
 import com.telran.bank.repository.AccountRepository;
-import com.telran.bank.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +14,10 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
-public class StubService {
+public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
-    @Autowired
-    private TransactionRepository transactionRepository;
     private final List<Account> accounts = new ArrayList<>();
-    private final List<Transaction> transactions = new ArrayList<>();
 
     public Account saveAccount (Account account){
         accounts.add(account);
@@ -43,7 +37,7 @@ public class StubService {
                     if (entry.getKey().equals("email")) {result = ("," + entry.getValue() + ",").contains("," +
                             account.getEmail() + ",");}
                     if (entry.getKey().equals("creationDate")) {result = ("," + value + ",")
-                            .contains("," + account.getCreationDate().toLowerCase() + ",");}
+                            .contains("," + account.getCreationDate() + ",");}
                     if (entry.getKey().equals("firstName")) {result = ("," + value + ",")
                             .contains("," + account.getFirstName().toLowerCase() + ",");}
                     if (entry.getKey().equals("lastName")) {result = ("," + value + ",")
@@ -83,7 +77,7 @@ public class StubService {
 
     public Account getAccount(Long id) {
         for (Account account : accounts) {
-            if (account.getId()==id) {
+            if (account.getId().equals(id)) {
                 return account;
             }
         }
@@ -94,11 +88,11 @@ public class StubService {
         Account accTo=null;
         Double balance = 0.0;
         for (Account account : accounts) {
-            if (account.getId()==Long.valueOf(fromIdStr)) {
+            if (account.getId().equals(Long.valueOf(fromIdStr))) {
                 accFrom = account;
                 balance = account.getAmountOfMoney();
             }
-            if (account.getId()==Long.valueOf(toIdStr)) {
+            if (account.getId().equals(Long.valueOf(toIdStr))) {
                 accTo = account;
             }
         }
@@ -110,7 +104,7 @@ public class StubService {
     }
     public Account updateAccount(Long id, Account account) {
         for (Account acc : accounts) {
-            if (acc.getId()==id) {
+            if (acc.getId().equals(id)) {
                 if(account.getEmail()!=null) acc.setEmail(account.getEmail());
                 if(account.getFirstName()!=null) acc.setFirstName(account.getFirstName());
                 if(account.getLastName()!=null) acc.setLastName(account.getLastName());
@@ -121,16 +115,5 @@ public class StubService {
             }
         }
         throw new AccountNotFoundException("Account not found");
-    }
-    public List<Transaction> getAllTransactions(Map<String, String> allParams) {
-        return transactions;
-    }
-    public Transaction getTransaction(Long id) {
-        for (Transaction tr: transactions) {
-            if (tr.getId()==id) {
-                return tr;
-            }
-        }
-        throw new TransactionNotFoundException("Transaction not found");
     }
 }

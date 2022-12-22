@@ -3,6 +3,7 @@ package com.telran.bank.entity;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Objects;
 
 @Entity
@@ -11,39 +12,19 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String dateTime;
+    private GregorianCalendar dateTime;
     private TransactionType transactionType;
     private Long accountFrom;
     private Long accountTo;
     private Double amount;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Transaction that = (Transaction) o;
-        return id == that.id && accountFrom == that.accountFrom && accountTo == that.accountTo && Double.compare(that.amount, amount) == 0 && Objects.equals(dateTime, that.dateTime) && transactionType == that.transactionType;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, dateTime, transactionType, accountFrom, accountTo, amount);
-    }
-
-    public Long getId() {
-        return id;
-    }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+    public Long getId() {
+        return id;
     }
 
     public TransactionType getTransactionType() {
@@ -76,5 +57,25 @@ public class Transaction {
 
     public void setAmount(Double amount) {
         this.amount = amount;
+    }
+
+    public GregorianCalendar getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(GregorianCalendar dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Transaction that)) return false;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

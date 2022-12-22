@@ -2,6 +2,7 @@ package com.telran.bank.entity;
 
 import jakarta.persistence.*;
 
+import java.util.GregorianCalendar;
 import java.util.Objects;
 
 @Entity
@@ -13,7 +14,7 @@ public class Account {
 
     private Long id;
     private String email;
-    private String creationDate;
+    private GregorianCalendar creationDate;
     private String firstName;
     private String lastName;
     private String country;
@@ -21,16 +22,16 @@ public class Account {
     private Double amountOfMoney;
 
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getCreationDate() {
+    public GregorianCalendar getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(String creationDate) {
+    public void setCreationDate(GregorianCalendar creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getEmail() {
@@ -87,12 +88,12 @@ public class Account {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Account account)) return false;
-        return Objects.equals(getId(), account.getId()) && Objects.equals(getEmail(), account.getEmail()) && Objects.equals(getCreationDate(), account.getCreationDate()) && Objects.equals(getFirstName(), account.getFirstName()) && Objects.equals(getLastName(), account.getLastName()) && Objects.equals(getCountry(), account.getCountry()) && Objects.equals(getCity(), account.getCity()) && Objects.equals(getAmountOfMoney(), account.getAmountOfMoney());
+        return Objects.equals(getId(), account.getId()) && Objects.equals(getEmail(), account.getEmail());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getEmail(), getCreationDate(), getFirstName(), getLastName(), getCountry(), getCity(), getAmountOfMoney());
+        return Objects.hash(getId(), getEmail());
     }
 
     @Override
