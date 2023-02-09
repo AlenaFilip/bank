@@ -1,71 +1,38 @@
 package com.telran.bank.entity;
 
+import com.telran.bank.entity.enums.TransactionType;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 
+@Setter
+@Getter
 @Entity
 @Table (name = "transaction")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-    private GregorianCalendar dateTime;
+
+    @Column(name = "dateTime")
+    private LocalDateTime dateTime;
+
+    @Column(name = "")
     private TransactionType transactionType;
+    @Column(name = "")
     private Long accountFrom;
+    @Column(name = "")
     private Long accountTo;
-    private Double amount;
+    @Column(name = "")
+    private BigDecimal amount;
 
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public TransactionType getTransactionType() {
-        return transactionType;
-    }
-
-    public void setTransactionType(TransactionType transactionType) {
-        this.transactionType = transactionType;
-    }
-
-    public Long getAccountFrom() {
-        return accountFrom;
-    }
-
-    public void setAccountFrom(Long accountFrom) {
-        this.accountFrom = accountFrom;
-    }
-
-    public Long getAccountTo() {
-        return accountTo;
-    }
-
-    public void setAccountTo(Long accountTo) {
-        this.accountTo = accountTo;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
-    public GregorianCalendar getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(GregorianCalendar dateTime) {
-        this.dateTime = dateTime;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -77,5 +44,15 @@ public class Transaction {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return id +
+                "  " + dateTime +
+                "  " + transactionType +
+                " accountFrom=" + accountFrom +
+                " accountTo=" + accountTo +
+                " amount=" + amount;
     }
 }

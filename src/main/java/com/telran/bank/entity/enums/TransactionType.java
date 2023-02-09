@@ -1,4 +1,4 @@
-package com.telran.bank.entity;
+package com.telran.bank.entity.enums;
 
 public enum TransactionType {
     TRANSFER,

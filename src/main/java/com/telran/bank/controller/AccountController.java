@@ -2,23 +2,32 @@ package com.telran.bank.controller;
 
 import com.telran.bank.entity.Account;
 import com.telran.bank.sevice.AccountService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
+@Validated
+@RequiredArgsConstructor
 public class AccountController {
-    @Autowired
-    private AccountService accountService;
+
+    private final AccountService accountService;
+
     @PostMapping("/accounts")
+    @ResponseStatus(HttpStatus.CREATED)
     public Account saveAccount (@RequestBody Account account){
         return accountService.saveAccount(account);
     }
     @GetMapping("/accounts")
-    public List<Account> getAllAccounts(@RequestParam Map<String, String> allParams){
-        return accountService.getAllAccounts(allParams);
+    public List<Account> getAllAccounts(@RequestParam(required = false) List<String> city,
+                                        @RequestParam(required = false) String creationDate,
+                                        @RequestParam(required = false) String sort){
+        return accountService.getAllAccounts(city, creationDate,sort);
     }
     @GetMapping("/accounts/{id}")                                                                            //3
     public Account getAccount(@PathVariable Long id) {
