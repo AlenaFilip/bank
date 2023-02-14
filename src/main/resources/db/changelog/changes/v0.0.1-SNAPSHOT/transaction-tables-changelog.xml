@@ -7,7 +7,7 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <changeSet author="alena" id="create accounts table">
-        <createTable tableName="accounts">
+        <createTable tableName="transactions">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>

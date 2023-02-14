@@ -7,5 +7,5 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <include file="db/changelog/changes/v0.0.1-SNAPSHOT/account-tables-changelog.xml"/>
-
+    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/transaction-tables-changelog.xml"/>
 </databaseChangeLog>

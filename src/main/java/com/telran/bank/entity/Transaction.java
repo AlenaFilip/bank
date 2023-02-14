@@ -21,18 +21,20 @@ public class Transaction {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "dateTime")
-    private LocalDateTime dateTime;
-
     @Column(name = "")
     private TransactionType transactionType;
+
     @Column(name = "")
     private Long accountFrom;
+
     @Column(name = "")
     private Long accountTo;
+
     @Column(name = "")
     private BigDecimal amount;
 
+    @Column(name = "dateTime")
+    private LocalDateTime dateTime;
 
     @Override
     public boolean equals(Object o) {

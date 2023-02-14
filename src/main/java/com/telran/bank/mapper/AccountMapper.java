@@ -13,5 +13,4 @@ public interface AccountMapper {
     Account accountDtoToEntity(AccountDto accountDTO);
 
     List<AccountDto> accountsEntityToDto(List<Account> accounts);
-
 }

@@ -6,15 +6,18 @@ import java.util.List;
 
 @Value
 public class AccountDto {
-    String email;
 
     String firstName;
 
     String lastName;
 
+    String email;
+
     String country;
 
     String city;
+
+    String creationDate;
 
     String amountOfMoney;
 }

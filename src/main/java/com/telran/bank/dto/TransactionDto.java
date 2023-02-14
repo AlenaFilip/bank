@@ -7,8 +7,6 @@ import java.time.LocalDateTime;
 
 public class TransactionDto {
 
-    String dateTime;
-
     String transactionType;
 
     String accountFrom;
@@ -17,4 +15,5 @@ public class TransactionDto {
 
     String amount;
 
+    String dateTime;
 }

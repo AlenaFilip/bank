@@ -24,15 +24,6 @@ public class Account {
     @Column(name = "id")
     private Long id;
 
-    @NotBlank
-    @Email
-    @Column(name = "email")
-    private String email;
-
-    @NotBlank(message = "Creation Date is blank")
-    @Column(name = "creationDate")
-    private LocalDate creationDate;
-
     @NotBlank(message = "First Name is blank")
     @Column(name = "firstName")
     private String firstName;
@@ -41,12 +32,22 @@ public class Account {
     @Column(name = "lastName")
     private String lastName;
 
+    @NotBlank
+    @Email
+    @Column(name = "email")
+    private String email;
+
     @NotBlank(message = "Country is blank")
     @Column(name = "country")
     private String country;
+
     @NotBlank(message = "City is blank")
     @Column(name = "city")
     private String city;
+
+    @NotBlank(message = "Creation Date is blank")
+    @Column(name = "creationDate")
+    private LocalDate creationDate;
 
     @Column(name = "amountOfMoney")
     private BigDecimal amountOfMoney;
@@ -59,12 +60,12 @@ public class Account {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Account account)) return false;
-        return Objects.equals(getId(), account.getId()) && Objects.equals(getEmail(), account.getEmail());
+        return Objects.equals(getId(), account.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getEmail());
+        return Objects.hash(getId());
     }
 
     @Override
