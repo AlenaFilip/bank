@@ -6,98 +6,27 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <changeSet author="alena" id="create accounts table">
+    <changeSet author="alena" id="create transactions table">
         <createTable tableName="transactions">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="firstName" type="varchar(64)">
+            <column name="transaction_type" type="int">
                 <constraints nullable="false"/>
             </column>
-            <column name="lastName" type="varchar(64)">
+            <column name="date_time" type="timestamp">
                 <constraints nullable="false"/>
             </column>
-            <column name="email" type="varchar(64)">
+            <column name="account_from" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="country" type="varchar(64)">
+            <column name="account_to" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="city" type="varchar(64)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="creationDate" type="date">
-                <constraints nullable="false"/>
-            </column>
-            <column name="amountOfMoney" type="float">
+            <column name="amount" type="decimal">
                 <constraints nullable="true"/>
             </column>
         </createTable>
-    </changeSet>
-
-    <changeSet id="insert test data into accounts 1" author="alena">
-        <insert tableName="accounts">
-            <column name="id" value="1"/>
-            <column name="firstName" value="Agid"/>
-            <column name="lastName" value=")"/>
-            <column name="email" value=""/>
-            <column name="country" value=""/>
-            <column name="city" value=""/>
-            <column name="creationDate" value=""/>
-            <column name="amountOfMoney" value=""/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="insert test data into accounts 1" author="alena">
-        <insert tableName="accounts">
-            <column name="id" value="1"/>
-            <column name="firstName" value="Agid"/>
-            <column name="lastName" value=")"/>
-            <column name="email" value=""/>
-            <column name="country" value=""/>
-            <column name="city" value=""/>
-            <column name="creationDate" value=""/>
-            <column name="amountOfMoney" value=""/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="insert test data into accounts 2" author="alena">
-        <insert tableName="accounts">
-            <column name="id" value="1"/>
-            <column name="firstName" value="Agid"/>
-            <column name="lastName" value=")"/>
-            <column name="email" value=""/>
-            <column name="country" value=""/>
-            <column name="city" value=""/>
-            <column name="creationDate" value=""/>
-            <column name="amountOfMoney" value=""/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="insert test data into accounts 3" author="alena">
-        <insert tableName="accounts">
-            <column name="id" value="1"/>
-            <column name="firstName" value="Agid"/>
-            <column name="lastName" value=")"/>
-            <column name="email" value=""/>
-            <column name="country" value=""/>
-            <column name="city" value=""/>
-            <column name="creationDate" value=""/>
-            <column name="amountOfMoney" value=""/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="insert test data into accounts 4" author="alena">
-        <insert tableName="accounts">
-            <column name="id" value="1"/>
-            <column name="firstName" value="Agid"/>
-            <column name="lastName" value=")"/>
-            <column name="email" value=""/>
-            <column name="country" value=""/>
-            <column name="city" value=""/>
-            <column name="creationDate" value=""/>
-            <column name="amountOfMoney" value=""/>
-        </insert>
     </changeSet>
 
 </databaseChangeLog>

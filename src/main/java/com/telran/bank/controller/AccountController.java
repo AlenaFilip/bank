@@ -9,7 +9,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @Validated
@@ -20,15 +19,15 @@ public class AccountController {
 
     @PostMapping("/accounts")
     @ResponseStatus(HttpStatus.CREATED)
-    public Account saveAccount (@RequestBody Account account){
-        return accountService.saveAccount(account);
+    public Account saveAccount (@RequestBody AccountDto accountDto){
+        return accountService.saveAccount(accountDto);
     }
 
     @GetMapping("/accounts")
-    public List<Account> getAllAccounts(@RequestParam(required = false) List<String> cities,
-                                        @RequestParam(required = false) String creationDate,
-                                        @RequestParam(required = false) String sort){
-        return accountService.getAllAccounts(cities, creationDate, sort);
+    public List<AccountDto> getAllAccounts(@RequestParam(required = false) List<String> city,
+                                           @RequestParam(required = false) String creationDate,
+                                           @RequestParam(required = false) String sort){
+        return accountService.getAllAccounts(city, creationDate, sort);
     }
 
     @GetMapping("/accounts/{id}")                                                                            //3

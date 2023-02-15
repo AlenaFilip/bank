@@ -11,10 +11,10 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="firstName" type="varchar(64)">
+            <column name="first_name" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
-            <column name="lastName" type="varchar(64)">
+            <column name="last_name" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
             <column name="email" type="varchar(64)">
@@ -26,78 +26,13 @@
             <column name="city" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
-            <column name="creationDate" type="date">
+            <column name="creation_date" type="date">
                 <constraints nullable="false"/>
             </column>
-            <column name="amountOfMoney" type="float">
+            <column name="amount_of_money" type="decimal">
                 <constraints nullable="true"/>
             </column>
         </createTable>
-    </changeSet>
-
-    <changeSet id="insert test data into accounts 1" author="alena">
-        <insert tableName="accounts">
-            <column name="id" value="1"/>
-            <column name="firstName" value="Agid"/>
-            <column name="lastName" value=")"/>
-            <column name="email" value=""/>
-            <column name="country" value=""/>
-            <column name="city" value=""/>
-            <column name="creationDate" value=""/>
-            <column name="amountOfMoney" value=""/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="insert test data into accounts 1" author="alena">
-        <insert tableName="accounts">
-            <column name="id" value="1"/>
-            <column name="firstName" value="Agid"/>
-            <column name="lastName" value=")"/>
-            <column name="email" value=""/>
-            <column name="country" value=""/>
-            <column name="city" value=""/>
-            <column name="creationDate" value=""/>
-            <column name="amountOfMoney" value=""/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="insert test data into accounts 2" author="alena">
-        <insert tableName="accounts">
-            <column name="id" value="1"/>
-            <column name="firstName" value="Agid"/>
-            <column name="lastName" value=")"/>
-            <column name="email" value=""/>
-            <column name="country" value=""/>
-            <column name="city" value=""/>
-            <column name="creationDate" value=""/>
-            <column name="amountOfMoney" value=""/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="insert test data into accounts 3" author="alena">
-        <insert tableName="accounts">
-            <column name="id" value="1"/>
-            <column name="firstName" value="Agid"/>
-            <column name="lastName" value=")"/>
-            <column name="email" value=""/>
-            <column name="country" value=""/>
-            <column name="city" value=""/>
-            <column name="creationDate" value=""/>
-            <column name="amountOfMoney" value=""/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="insert test data into accounts 4" author="alena">
-        <insert tableName="accounts">
-            <column name="id" value="1"/>
-            <column name="firstName" value="Agid"/>
-            <column name="lastName" value=")"/>
-            <column name="email" value=""/>
-            <column name="country" value=""/>
-            <column name="city" value=""/>
-            <column name="creationDate" value=""/>
-            <column name="amountOfMoney" value=""/>
-        </insert>
     </changeSet>
 
 </databaseChangeLog>

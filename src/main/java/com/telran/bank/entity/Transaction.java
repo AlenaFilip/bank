@@ -7,33 +7,39 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Objects;
 
 @Setter
 @Getter
 @Entity
-@Table (name = "transaction")
+@Table (name = "transactions")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "")
+    @Column(name = "transaction_type")
     private TransactionType transactionType;
 
-    @Column(name = "")
+//    @ManyToOne
+//    @JoinColumn(name="account_from")
+//    private Account accountFrom;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "account_to")
+//    private Account accountTo;
+
+    @Column(name = "account_from")
     private Long accountFrom;
 
-    @Column(name = "")
+    @Column(name = "account_to")
     private Long accountTo;
 
-    @Column(name = "")
+    @Column(name = "amount")
     private BigDecimal amount;
 
-    @Column(name = "dateTime")
+    @Column(name = "date_time")
     private LocalDateTime dateTime;
 
     @Override

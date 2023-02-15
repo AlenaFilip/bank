@@ -1,4 +1,5 @@
 package com.telran.bank.sevice.impl;
+import com.telran.bank.dto.AccountDto;
 import com.telran.bank.entity.Account;
 import com.telran.bank.exception.AccountNotFoundException;
 import com.telran.bank.mapper.AccountMapper;
@@ -21,11 +22,12 @@ public class AccountServiceImpl implements AccountService {
 
         private final AccountMapper accountMapper;
 
-        public Account saveAccount (Account account){
+        public Account saveAccount (AccountDto accountDto) {
+            Account account = accountMapper.accountDtoToEntity(accountDto);
             return accountRepository.save(account);
         }
-        public List<Account> getAllAccounts(List<String> city, String creationDate, String sort){
-            return accountRepository.findAll();
+        public List<AccountDto> getAllAccounts(List<String> city, String creationDate, String sort){
+            return accountMapper.accountsEntityToDto(accountRepository.findAll());
         }
 
         public Account getAccount(Long id) {

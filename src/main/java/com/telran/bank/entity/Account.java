@@ -9,7 +9,6 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,11 +24,11 @@ public class Account {
     private Long id;
 
     @NotBlank(message = "First Name is blank")
-    @Column(name = "firstName")
+    @Column(name = "first_name")
     private String firstName;
 
     @NotBlank(message = "Last Name is blank")
-    @Column(name = "lastName")
+    @Column(name = "last_name")
     private String lastName;
 
     @NotBlank
@@ -46,14 +45,11 @@ public class Account {
     private String city;
 
     @NotBlank(message = "Creation Date is blank")
-    @Column(name = "creationDate")
+    @Column(name = "creation_date")
     private LocalDate creationDate;
 
-    @Column(name = "amountOfMoney")
+    @Column(name = "amount_of_money")
     private BigDecimal amountOfMoney;
-
-    @OneToMany
-    private List<Transaction> transactions = new ArrayList<>();
 
 
     @Override
@@ -70,6 +66,6 @@ public class Account {
 
     @Override
     public String toString() {
-        return id +" email=" + email +" "+  firstName +" "+ lastName +" "+ country +" "+ city +" " + amountOfMoney;
+        return id +" email=" + email +" "+ firstName +" "+ lastName +" "+ country +" "+ city +" " + amountOfMoney;
     }
 }

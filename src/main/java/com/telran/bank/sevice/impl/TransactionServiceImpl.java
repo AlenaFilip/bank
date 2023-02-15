@@ -1,5 +1,6 @@
 package com.telran.bank.sevice.impl;
 
+import com.telran.bank.dto.TransactionDto;
 import com.telran.bank.entity.Transaction;
 import com.telran.bank.exception.TransactionNotFoundException;
 import com.telran.bank.mapper.TransactionMapper;
@@ -22,8 +23,8 @@ public class TransactionServiceImpl implements TransactionService {
                 .orElseThrow(()-> new TransactionNotFoundException("id = " + id));
     }
 
-    public List<Transaction> getTransactions(String date, String type, String sort) {
-        return transactionRepository.findAll();
+    public List<TransactionDto> getTransactions(String date, List<String> type, String sort) {
+        return transactionMapper.transactionsEntityToDto(transactionRepository.findAll());
     }
 
 }
