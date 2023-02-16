@@ -3,10 +3,12 @@ package com.telran.bank.sevice.impl;
 import com.telran.bank.dto.TransactionDto;
 import com.telran.bank.entity.Transaction;
 import com.telran.bank.exception.TransactionNotFoundException;
+import com.telran.bank.mapper.AccountMapper;
 import com.telran.bank.mapper.TransactionMapper;
 import com.telran.bank.repository.TransactionRepository;
 import com.telran.bank.sevice.TransactionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +17,9 @@ import java.util.List;
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
+    @Autowired
     private TransactionRepository transactionRepository;
-    private TransactionMapper transactionMapper;
+    private final TransactionMapper transactionMapper;
 
     public Transaction getTransaction(Long id) {
         return  transactionRepository.findById(id)

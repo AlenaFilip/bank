@@ -22,19 +22,20 @@ public class Transaction {
     @Column(name = "transaction_type")
     private TransactionType transactionType;
 
-//    @ManyToOne
-//    @JoinColumn(name="account_from")
-//    private Account accountFrom;
+
+    @ManyToOne
+    @JoinColumn(name="account_from", referencedColumnName = "id")
+    private Account accountFrom;
+
+    @ManyToOne
+    @JoinColumn(name = "account_to", referencedColumnName = "id")
+    private Account accountTo;
+
+//    @Column(name = "account_from")
+//    private Long accountFrom;
 //
-//    @ManyToOne
-//    @JoinColumn(name = "account_to")
-//    private Account accountTo;
-
-    @Column(name = "account_from")
-    private Long accountFrom;
-
-    @Column(name = "account_to")
-    private Long accountTo;
+//    @Column(name = "account_to")
+//    private Long accountTo;
 
     @Column(name = "amount")
     private BigDecimal amount;

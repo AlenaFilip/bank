@@ -7,6 +7,11 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <changeSet author="alena" id="create accounts table">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="accounts"/>
+            </not>
+        </preConditions>
         <createTable tableName="accounts">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
@@ -34,5 +39,26 @@
             </column>
         </createTable>
     </changeSet>
-
+    <changeSet author="alena" id="add datarows">
+            <insert tableName="accounts">
+                <column name="id" value="1"/>
+                <column name="first_name" value="andrei"/>
+                <column name="last_name"   value="lastname"/>
+                <column name="email" value="cat@mail.sob"/>
+                <column name="country" value="DE"/>
+                <column name="city" value="BRE"/>
+                <column name="creation_date" value="2023-01-01"/>
+            </insert>
+    </changeSet>
+    <changeSet author="alena" id="add datarows 2">
+        <insert tableName="accounts">
+            <column name="id" value="2"/>
+            <column name="first_name" value="Victor"/>
+            <column name="last_name"   value="Suchko"/>
+            <column name="email" value="vitya@gmail.com"/>
+            <column name="country" value="Brasil"/>
+            <column name="city" value="Janko"/>
+            <column name="creation_date" value="2022-05-01"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

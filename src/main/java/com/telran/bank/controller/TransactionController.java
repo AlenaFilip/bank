@@ -3,7 +3,9 @@ package com.telran.bank.controller;
 import com.telran.bank.dto.TransactionDto;
 import com.telran.bank.entity.Transaction;
 import com.telran.bank.sevice.impl.TransactionServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@Validated
+@RequiredArgsConstructor
 public class TransactionController {
     @Autowired
     private TransactionServiceImpl transactionServiceImpl;

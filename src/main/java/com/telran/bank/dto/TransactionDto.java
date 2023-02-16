@@ -1,10 +1,8 @@
 package com.telran.bank.dto;
 
-import com.telran.bank.entity.enums.TransactionType;
-import jakarta.persistence.Column;
+import lombok.Value;
 
-import java.time.LocalDateTime;
-
+@Value
 public class TransactionDto {
 
     String transactionType;

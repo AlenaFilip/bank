@@ -7,6 +7,11 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <changeSet author="alena" id="create transactions table">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="transactions"/>
+            </not>
+        </preConditions>
         <createTable tableName="transactions">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
@@ -18,15 +23,26 @@
                 <constraints nullable="false"/>
             </column>
             <column name="account_from" type="bigint">
-                <constraints nullable="false"/>
+                <constraints foreignKeyName="fk_account_from" references="accounts(id)" nullable="false"/>
             </column>
             <column name="account_to" type="bigint">
-                <constraints nullable="false"/>
+                <constraints foreignKeyName="fk_account_to" references="accounts(id)" nullable="false"/>
             </column>
             <column name="amount" type="decimal">
                 <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>
+    <changeSet author="alena" id="add datarows 1">
+        <insert tableName="transactions">
+            <column name="id" value="1"/>
+            <column name="transaction_type" value="1"/>
+            <column name="date_time" value="2023-02-01"/>
+            <column name="account_from" value="1"/>
+            <column name="account_to" value="2"/>
+            <column name="amount" value="5"/>
+        </insert>
+    </changeSet>
+
 
 </databaseChangeLog>
