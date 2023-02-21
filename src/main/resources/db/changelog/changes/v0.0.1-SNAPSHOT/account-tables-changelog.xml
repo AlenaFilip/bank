@@ -32,7 +32,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="creation_date" type="date">
-                <constraints nullable="false"/>
             </column>
             <column name="amount_of_money" type="decimal">
                 <constraints nullable="true"/>

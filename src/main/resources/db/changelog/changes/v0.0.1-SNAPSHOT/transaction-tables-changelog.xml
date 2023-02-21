@@ -20,7 +20,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="date_time" type="timestamp">
-                <constraints nullable="false"/>
             </column>
             <column name="account_from" type="bigint">
                 <constraints foreignKeyName="fk_account_from" references="accounts(id)" nullable="false"/>

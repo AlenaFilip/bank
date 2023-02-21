@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -24,26 +25,26 @@ public class AccountController {
     }
 
     @GetMapping("/accounts")
-    public List<AccountDto> getAllAccounts(@RequestParam(required = false) List<String> city,
-                                           @RequestParam(required = false) String creationDate,
-                                           @RequestParam(required = false) String sort){
-        return accountService.getAllAccounts(city, creationDate, sort);
+    public List<AccountDto> getAllAccounts(@RequestParam(value="city", required = false) List<String> city,
+                                           @RequestParam(value="date", required = false) String creationDate,
+                                           @RequestParam(value="sort", required = false) String sort){
+        return accountService.getListAccounts(city, creationDate, sort);
     }
 
     @GetMapping("/accounts/{id}")                                                                            //3
-    public Account getAccount(@PathVariable("id") Long id) {
+    public AccountDto getAccount(@PathVariable("id") Long id) {
         return accountService.getAccount(id);
     }
 
     @PutMapping("/accounts")
-    public void transfer (@RequestParam("from") String fromIdStr,
-                          @RequestParam("to") String toIdStr,
-                          @RequestParam("amount") String amountStr){
-        accountService.transfer(fromIdStr,toIdStr,amountStr);
+    public void transfer (@RequestParam(value="from", required = false) Long fromId,
+                          @RequestParam(value="to", required = false) Long toId,
+                          @RequestParam(value="amount",required = true ) BigDecimal amount){
+        accountService.transfer(fromId, toId, amount);
     }
 
     @PatchMapping("/accounts/{id}")                                                                            //5
-    public Account updateAccount(@PathVariable("id") Long id, @RequestBody Account account) {
-        return accountService.updateAccount(id,account);
+    public Account updateAccount(@PathVariable("id") Long id, @RequestBody AccountDto accountDto) {
+        return accountService.updateAccount(id,accountDto);
     }
 }

@@ -45,10 +45,6 @@
 			<groupId>org.xmlunit</groupId>
 			<artifactId>xmlunit-core</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.xmlunit</groupId>
-			<artifactId>xmlunit-core</artifactId>
-		</dependency>
 		<!--         mapstruct -->
 		<dependency>
 			<groupId>org.mapstruct</groupId>

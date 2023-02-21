@@ -3,16 +3,17 @@ package com.telran.bank.sevice;
 import com.telran.bank.dto.AccountDto;
 import com.telran.bank.entity.Account;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface AccountService {
-    List<AccountDto> getAllAccounts(List<String> city, String creationDate, String sort);
+    List<AccountDto> getListAccounts(List<String> city, String creationDate, String sort);
 
-    Account getAccount(Long id);
+    AccountDto getAccount(Long id);
 
     Account saveAccount(AccountDto accountDto);
 
-    void transfer(String fromIdStr,String toIdStr,String amountStr);
+    void transfer(Long fromId, Long toId, BigDecimal amount);
 
-    Account updateAccount(Long id,Account account);
+    Account updateAccount(Long id,AccountDto accountDto);
 }

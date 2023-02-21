@@ -3,7 +3,9 @@ package com.telran.bank.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -12,6 +14,8 @@ import java.util.Objects;
 
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table (name = "accounts")
 public class Account {
@@ -42,7 +46,6 @@ public class Account {
     @Column(name = "city")
     private String city;
 
-    @NotBlank(message = "Creation Date is blank")
     @Column(name = "creation_date")
     private LocalDate creationDate;
 

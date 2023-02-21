@@ -115,8 +115,6 @@ GET request to `/transactions`:
    /transaction?date=2022-11-25. When this parameter is present, only the records with the matching date are returned.
 - accepts an optional query string parameter, type, and when this parameter is present, 
    only the records with the matching type are returned. 
-   It might contain several values, separated by commas, meaning that records with the type 
-   matching any of these values must be returned.
 - accepts an optional query string parameter, sort, that can take one of two values: 
    either "dateTime" or "-dateTime". If the value is "dateTime", then the ordering is by dateTime 
    in ascending order. If it is "-dateTime", then the ordering is by dateTime in descending order. 
