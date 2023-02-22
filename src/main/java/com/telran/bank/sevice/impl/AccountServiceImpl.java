@@ -1,9 +1,12 @@
 package com.telran.bank.sevice.impl;
+
 import com.telran.bank.dto.AccountDto;
 import com.telran.bank.entity.Account;
 import com.telran.bank.entity.Transaction;
 import com.telran.bank.entity.enums.TransactionType;
 import com.telran.bank.exception.AccountNotFoundException;
+import com.telran.bank.exception.ErrorMessage;
+import com.telran.bank.exception.TransactionFailedException;
 import com.telran.bank.mapper.AccountMapper;
 import com.telran.bank.repository.AccountRepository;
 import com.telran.bank.repository.TransactionRepository;
@@ -11,17 +14,15 @@ import com.telran.bank.sevice.AccountService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.sql.ast.tree.expression.Collation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.telran.bank.entity.enums.TransactionType.*;
 
 @RequiredArgsConstructor
 @Service
@@ -41,23 +42,25 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<AccountDto> getListAccounts(List<String> city, String creationDate, String sort){
         List<Account> accounts;
-        if(city == null && creationDate == null) {
-            accounts= accountRepository.findAll();
-        } else if(city == null && creationDate != null) {
-            accounts= accountRepository.findAllByCreationDate(LocalDate.parse(creationDate));
-        } else if(city != null && creationDate == null) {
-            accounts= accountRepository.findAllByCityInIgnoreCase(city);
-        } else {
+        if(city != null && creationDate != null) {   // city + date
             accounts= accountRepository.findAllByCityInIgnoreCaseAndCreationDate(city, LocalDate.parse(creationDate));
+        } else if(creationDate != null) {  // only creationDate
+            accounts= accountRepository.findAllByCreationDate(LocalDate.parse(creationDate));
+        } else if(city != null) {  // only city
+            accounts= accountRepository.findAllByCityInIgnoreCase(city);
+        } else {   // without filter
+            accounts= accountRepository.findAll();
         }
-        if(sort != null && sort.toLowerCase().equals("creationdate")){
-            accounts=accounts.stream()
-                    .sorted((a1,a2) -> a1.getCreationDate().compareTo(a2.getCreationDate()))
-                    .collect(Collectors.toList());
-        } else if (sort != null && sort.toLowerCase().equals("creationdate")){
-            accounts=accounts.stream()
-                    .sorted((a1,a2) -> a2.getCreationDate().compareTo(a1.getCreationDate()))
-                    .collect(Collectors.toList());
+        if(sort != null){  // with order
+            if(sort.equalsIgnoreCase("creationDate")) {
+                accounts = accounts.stream()
+                        .sorted(Comparator.comparing(Account::getCreationDate))
+                        .collect(Collectors.toList());
+            } else if (sort.equalsIgnoreCase("-creationDate")) {
+                accounts = accounts.stream()
+                        .sorted(Comparator.comparing(Account::getCreationDate, Comparator.reverseOrder()))
+                        .collect(Collectors.toList());
+            }
         }
         return accountMapper.accountsEntityToDto(accounts);
     }
@@ -72,58 +75,60 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     @Override
     public void transfer (Long fromId, Long toId, BigDecimal amount){
-        if(fromId == null && toId == null) throw new RuntimeException("Transaction impossible - no accounts id");
-        TransactionType transactionType = TransactionType.TRANSFER;
+        TransactionType transactionType = checkTransactionType(fromId,toId);
+        Long accFrom = (fromId == null)? toId: fromId;
+        Long accTo = (toId == null)? fromId: toId;
+        Account accountFrom = accountRepository.findById(accFrom)
+                .orElseThrow(()->new AccountNotFoundException("id = " + accFrom));
+        Account accountTo = accountRepository.findById(accTo)
+                .orElseThrow(()->new AccountNotFoundException("id = " + accTo));
+        if(transactionType == DEPOSIT) {
+            accountTo.setAmountOfMoney(accountTo.getAmountOfMoney().add(amount));
+            accountRepository.save(accountTo);
+        }
+        if(transactionType == WITHDRAW){
+            if(accountFrom.getAmountOfMoney().compareTo(amount)<0) throw new TransactionFailedException(ErrorMessage.NOT_ENOUGH_MONEY);
+            accountFrom.setAmountOfMoney(accountTo.getAmountOfMoney().subtract(amount));
+            accountRepository.save(accountFrom);
+        }
+        if(transactionType == TRANSFER){
+            if(accountFrom.getAmountOfMoney().compareTo(amount)<0) throw new TransactionFailedException(ErrorMessage.NOT_ENOUGH_MONEY);
+            accountFrom.setAmountOfMoney(accountFrom.getAmountOfMoney().subtract(amount));
+            accountTo.setAmountOfMoney(accountTo.getAmountOfMoney().add(amount));
+            accountRepository.save(accountFrom);
+            accountRepository.save(accountTo);
+        }
+        Transaction transaction = new Transaction();
+        transaction.setAccountFrom(accFrom);
+        transaction.setAccountTo(accTo);
+        transaction.setTransactionType(transactionType);
+        transaction.setAmount(amount);
+        transactionRepository.save(transaction);
+    }
+
+    public TransactionType checkTransactionType(Long fromId, Long toId){
+        TransactionType transactionType = TRANSFER;
+        if(fromId == null && toId == null) throw new TransactionFailedException(ErrorMessage.TRANSACTION_IMPOSSIBLE);
         if (fromId == null) {
-            transactionType = TransactionType.DEPOSIT;
-            fromId = toId;
+            transactionType = DEPOSIT;
         }
         if (toId == null) {
-            transactionType = TransactionType.WITHDRAW;
-            toId = fromId;
+            transactionType = WITHDRAW;
         }
-        Account accountFrom = accountRepository.findById(fromId)
-                .orElseThrow(()-> new AccountNotFoundException("fromId"));
-        Account accountTo = accountRepository.findById(toId)
-                .orElseThrow(()-> new AccountNotFoundException("toId"));
-        switch (transactionType){
-            case DEPOSIT: {
-                accountTo.setAmountOfMoney(accountTo.getAmountOfMoney().add(amount));
-                break;
-            }
-            case WITHDRAW:{
-                if(accountFrom.getAmountOfMoney().compareTo(amount)<0) throw new RuntimeException("Not enough money");
-                accountFrom.setAmountOfMoney(accountTo.getAmountOfMoney().subtract(amount));
-                break;
-            }
-            case TRANSFER:{
-                if(accountFrom.getAmountOfMoney().compareTo(amount)<0) throw new RuntimeException("Not enough money");
-                accountFrom.setAmountOfMoney(accountTo.getAmountOfMoney().subtract(amount));
-                accountTo.setAmountOfMoney(accountTo.getAmountOfMoney().add(amount));
-                break;
-            }
-        }
-        Transaction newTransaction = new Transaction();
-        newTransaction.setAccountFrom(fromId);
-        newTransaction.setAccountTo(toId);
-        newTransaction.setTransactionType(transactionType);
-        newTransaction.setAmount(amount);
-        transactionRepository.save(newTransaction);
+        return transactionType;
     }
-
     @Override
     public Account updateAccount(Long id, AccountDto accountDto) {
-        Account newAccount = accountMapper.accountDtoToEntity(accountDto);
-        Account oldAccount = accountRepository.findById(id)
+        Account newFieldsAccount = accountMapper.accountDtoToEntity(accountDto);
+        Account account = accountRepository.findById(id)
                 .orElseThrow(()->new AccountNotFoundException("id = " + id));
-        if(newAccount.getFirstName() != null) oldAccount.setFirstName(newAccount.getFirstName());
-        if(newAccount.getLastName() != null) oldAccount.setLastName(newAccount.getLastName());
-        if(newAccount.getEmail() != null) oldAccount.setEmail(newAccount.getEmail());
-        if(newAccount.getCountry() != null) oldAccount.setCountry(newAccount.getCountry());
-        if(newAccount.getCity() != null) oldAccount.setCity(newAccount.getCity());
-        if(newAccount.getCreationDate() != null) oldAccount.setCreationDate(newAccount.getCreationDate());
-        if(newAccount.getAmountOfMoney() != null) oldAccount.setAmountOfMoney(newAccount.getAmountOfMoney());
-        return accountRepository.save(oldAccount);
+        if(newFieldsAccount.getFirstName() != null) account.setFirstName(newFieldsAccount.getFirstName());
+        if(newFieldsAccount.getLastName() != null) account.setLastName(newFieldsAccount.getLastName());
+        if(newFieldsAccount.getEmail() != null) account.setEmail(newFieldsAccount.getEmail());
+        if(newFieldsAccount.getCountry() != null) account.setCountry(newFieldsAccount.getCountry());
+        if(newFieldsAccount.getCity() != null) account.setCity(newFieldsAccount.getCity());
+        if(newFieldsAccount.getCreationDate() != null) account.setCreationDate(newFieldsAccount.getCreationDate());
+        if(newFieldsAccount.getAmountOfMoney() != null) account.setAmountOfMoney(newFieldsAccount.getAmountOfMoney());
+        return accountRepository.save(account);
         }
     }
-

@@ -12,6 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,26 +34,35 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<TransactionDto> getListTransactions(String date, String type, String sort) {
-
+    public List<TransactionDto> getListTransactions(LocalDate date, String type, String sort) {
+        type = type.toUpperCase();
+        LocalDateTime dateMin = null;
+        LocalDateTime dateMax = null;
+        if(date != null) {
+            dateMin = date.atTime(LocalTime.MIN);
+            dateMax = date.atTime(LocalTime.MAX);
+        }
         List<Transaction> transactions;
         if(date == null && type == null){
             transactions = transactionRepository.findAll();
-        } else if(date == null && type != null){
+        } else if(date == null){   // only type
             transactions = transactionRepository.findAllByTransactionType(TransactionType.valueOf(type));
-        } else if(date != null && type == null){
-            transactions = transactionRepository.findAllByDateTime(LocalDate.parse(date));
-        } else {
-            transactions = transactionRepository.findAllByDateTimeContainsAndTransactionType(date, TransactionType.valueOf(type));
+        } else if(type == null){    // only date
+            transactions = transactionRepository.findAllByDateTimeIsBetween(dateMin, dateMax);
+        } else {                // type and date
+            transactions = transactionRepository.findAllByTransactionTypeAndDateTimeIsBetween(TransactionType.valueOf(type), dateMin, dateMax);
         }
-        if(sort != null && sort.toLowerCase().equals("datetime")){
-            transactions=transactions.stream()
-                    .sorted((a1,a2) -> a1.getDateTime().compareTo(a2.getDateTime()))
-                    .collect(Collectors.toList());
-        } else if (sort != null && sort.toLowerCase().equals("-datetime")){
-            transactions=transactions.stream()
-                    .sorted((a1,a2) -> a2.getDateTime().compareTo(a1.getDateTime()))
-                    .collect(Collectors.toList());
+        if(sort != null){
+            if(sort.equalsIgnoreCase("dateTime")) {
+                transactions = transactions.stream()
+                        .sorted(Comparator.comparing(Transaction::getDateTime))
+                        .collect(Collectors.toList());
+            }
+            if (sort.equalsIgnoreCase("-dateTime")) {
+                transactions = transactions.stream()
+                        .sorted(Comparator.comparing(Transaction::getDateTime,Comparator.reverseOrder()))
+                        .collect(Collectors.toList());
+            }
         }
         return transactionMapper.transactionsEntityToDto(transactions);
     }
