@@ -35,7 +35,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<TransactionDto> getListTransactions(LocalDate date, String type, String sort) {
-        type = type.toUpperCase();
+        if(type != null) type = type.toUpperCase();
         LocalDateTime dateMin = null;
         LocalDateTime dateMax = null;
         if(date != null) {
