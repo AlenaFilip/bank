@@ -1,4 +1,4 @@
-package com.telran.bank.sevice.impl;
+package com.telran.bank.service.impl;
 
 import com.telran.bank.dto.AccountDto;
 import com.telran.bank.entity.Account;
@@ -10,7 +10,7 @@ import com.telran.bank.exception.TransactionFailedException;
 import com.telran.bank.mapper.AccountMapper;
 import com.telran.bank.repository.AccountRepository;
 import com.telran.bank.repository.TransactionRepository;
-import com.telran.bank.sevice.AccountService;
+import com.telran.bank.service.AccountService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,6 +62,7 @@ public class AccountServiceImpl implements AccountService {
                         .collect(Collectors.toList());
             }
         }
+        List<AccountDto> list = accountMapper.accountsEntityToDto(accounts);
         return accountMapper.accountsEntityToDto(accounts);
     }
 

@@ -1,4 +1,4 @@
-package com.telran.bank.sevice.impl;
+package com.telran.bank.service.impl;
 
 import com.telran.bank.dto.TransactionDto;
 import com.telran.bank.entity.Transaction;
@@ -6,7 +6,7 @@ import com.telran.bank.entity.enums.TransactionType;
 import com.telran.bank.exception.TransactionNotFoundException;
 import com.telran.bank.mapper.TransactionMapper;
 import com.telran.bank.repository.TransactionRepository;
-import com.telran.bank.sevice.TransactionService;
+import com.telran.bank.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -52,8 +52,7 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return id +
-                "  " + dateTime +
+        return dateTime +
                 "  " + transactionType +
                 " accountFrom=" + accountFrom +
                 " accountTo=" + accountTo +

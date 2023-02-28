@@ -67,6 +67,6 @@ public class Account {
 
     @Override
     public String toString() {
-        return id +" email=" + email +" "+ firstName +" "+ lastName +" "+ country +" "+ city +" " + amountOfMoney;
+        return " email=" + email +" "+ firstName +" "+ lastName +" "+ country +" "+ city +" " + amountOfMoney + " creation date="+String.valueOf(creationDate);
     }
 }

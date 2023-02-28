@@ -1,4 +1,4 @@
-package com.telran.bank.sevice;
+package com.telran.bank.service;
 
 import com.telran.bank.dto.TransactionDto;
 
